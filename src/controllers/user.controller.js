@@ -1,22 +1,58 @@
-const db = require('../config/database.config')
 
-    //  save user in the database 
-exports.create= (req,res)=>{
-    let prop = req.body;
-    // add new user to the database
-    let query = "INSERT INTO Property (owner,price,city,address,type,image_url,created_at,status,state) VALUES(?,?,?,?,?,?,?,?,?)";
-    //create a user
-    db.query(query,[prop.owner,prop.price,prop.type,prop.city,prop.address,
-    prop.image_url,prop.created_at,prop.status,prop.state],(err,results)=>{
-        //handling error
-        if(!err){
-            //success
-            return res.status(200).json({message:"Property created successfully"})
+//sign up feature
+const  User  = require("../models/user.models");
+const bcrypt = require("bcrypt");
+const {generate: generateToken}= require("../middleware/authJwt");
+exports.create = async (req, res, next) => {
+     const body =req.body;
+     const {id, email, first_name, last_name} = req.body;
+     const user = new User(id, email, first_name, last_name);
+     
+    //encrypt password with bcrypt
+    const salt = await bcrypt.genSalt(10);
+    body.password = await bcrypt.hash(body.password, parseInt(salt));
+
+     
+    //Reject empty values
+    if(!req.body) { res.staus(400).send({message:"cannot be empty"})};
+    
+
+    
+    
+    
+     //display signup data
+    User.create(body, (err, data) => {
+        if(err) {
+            console.log(err);
+            return res.status(500).send({
+                status:"error",
+                message: err.message
+            });
         }
-        else{
-            //server error
-            return res.status(500).json(err)
+        else {
+            let token = generateToken(data.id);
+            
+            
+            
+            res.status(201).send(
+                {
+                    status:"success",
+                    data: ({token,...user})
+                        
+                        
+                        
+                            
+                        
+                        
+                    
+                }
+            )
         }
-    })
+    });
+
 }
+
+
+
+
 
