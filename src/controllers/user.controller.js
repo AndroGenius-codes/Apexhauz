@@ -1,3 +1,4 @@
+
 //sign up feature
 const  User  = require("../models/user.models");
 const bcrypt = require("bcrypt");
@@ -50,5 +51,8 @@ exports.create = async (req, res, next) => {
     });
 
 }
+
+
+
 
 

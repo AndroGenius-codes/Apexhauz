@@ -1,7 +1,8 @@
+
 const express = require("express");
 const app = express();
-port = 8000;
-const host = '127.0.0.1';
+port = process.env.PORT || 8000;
+const host = 'process.env.DB_HOST';
 
 const cors = require("cors");
 app.use(cors());
@@ -22,3 +23,6 @@ app.get("/", (req, res) => {
 
 
 app.listen(port,host, () => {console.log("i am listening")});
+
+
+
