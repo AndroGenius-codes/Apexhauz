@@ -1,12 +1,12 @@
 
-//sign up feature
-const  User  = require("../models/user.models");
+//property feature
+const  Property  = require("../models/prop.models");
 const bcrypt = require("bcrypt");
 const {generate: generateToken}= require("../middleware/authJwt");
-exports.create = async (req, res, next) => {
+exports.createProperty= async (req, res, next) => {
      const body =req.body;
-     const {id, email, first_name, last_name} = req.body;
-     const user = new User(id, email, first_name, last_name);
+     const {id,owner,status,price,state,city,address,type,image_url,created_on} = req.body;
+     const prop= new Property(id,owner,status,price,state,city,address,type,image_url,created_on);
      
     //encrypt password with bcrypt
     const salt = await bcrypt.genSalt(10);
@@ -20,8 +20,8 @@ exports.create = async (req, res, next) => {
     
     
     
-     //display signup data
-    User.create(body, (err, data) => {
+     //display property data
+    Property.createProperty(body, (err, data) => {
         if(err) {
             console.log(err);
             return res.status(500).send({
@@ -37,7 +37,7 @@ exports.create = async (req, res, next) => {
             res.status(200).send(
                 {
                     status:"success",
-                    data: ({token,...user})
+                    data: ({token,...prop})
                         
                         
                         

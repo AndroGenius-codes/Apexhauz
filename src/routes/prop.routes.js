@@ -1,7 +1,6 @@
 
 const router = require("express").Router();
-const userController = require('../controllers/user.controller');
-
+const propController = require('../controllers/prop.controller')
 
 
 module.exports = (app) => {
@@ -9,9 +8,8 @@ module.exports = (app) => {
         res.header("Acces-control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
         next();
     })
-  // Create a new User
-  router.post("/auth/signup", userController.create);
-  
+  // Create a new Property 
+  router.post("/property", propController.createProperty);
 
  
   app.use('/api/v1', router);
