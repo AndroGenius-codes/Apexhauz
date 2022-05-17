@@ -1,7 +1,7 @@
 
 const express = require("express");
 const app = express();
-port = process.env.PORT || 8000;
+const port = process.env.PORT || 8000;
 const host = 'process.env.DB_HOST';
 
 const cors = require("cors");
@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // simple route
 require("./src/routes/user.routes.js")(app);
+require("./src/routes/prop.routes.js")(app);
 app.get("/", (req, res) => {
   res.json({ message: "Group 21 nodejs Api project." });
 });
